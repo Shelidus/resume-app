@@ -1,0 +1,5 @@
+flask
+google-genai
+pdfplumber
+python-docx
+gunicorn
