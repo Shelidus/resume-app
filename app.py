@@ -26,9 +26,13 @@ def html_to_pdf(html_path, pdf_path):
 
     with sync_playwright() as p:
         browser = p.chromium.launch(
-            headless=True,
-            args=["--no-sandbox", "--disable-setuid-sandbox"]
-        )
+        headless=True,
+        args=[
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage"
+        ]
+    )
 
         page = browser.new_page()
         page.goto(f"file:///{html_path}", wait_until="networkidle")
