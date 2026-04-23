@@ -23,7 +23,6 @@ def html_to_pdf(html_path, pdf_path):
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=True,
-            executable_path="/opt/render/project/src/.cache/ms-playwright/chromium-1208/chrome-linux/chrome",
             args=[
                 "--no-sandbox",
                 "--disable-setuid-sandbox",
