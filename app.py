@@ -10,29 +10,25 @@ from playwright.sync_api import sync_playwright
 
 # ── PDF GENERATION ─────────────────────────────────────
 
-def html_to_pdf(html_path, pdf_path):
-    """
-    Convert HTML to PDF using Playwright/Chromium.
+import os
+from playwright.sync_api import sync_playwright
 
-    KEY FIX: All Playwright margins are set to 0mm.
-    - Page 1 header sits flush at the very top (desired).
-    - Page 2+ top breathing room is handled purely in CSS
-      via margin-top on block elements. Chromium correctly
-      applies block-level margins when elements land at the
-      top of a continued page, unlike @page margins which
-      Chromium applies uniformly to ALL pages (including p1).
-    """
+def html_to_pdf(html_path, pdf_path):
     html_path = os.path.abspath(html_path)
+
+    # 👇 FORCE Playwright to use project-installed browsers
+    os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "0"
 
     with sync_playwright() as p:
         browser = p.chromium.launch(
-        headless=True,
-        args=[
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage"
-        ]
-    )
+            headless=True,
+            executable_path="/opt/render/project/src/.cache/ms-playwright/chromium-1208/chrome-linux/chrome",
+            args=[
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage"
+            ]
+        )
 
         page = browser.new_page()
         page.goto(f"file:///{html_path}", wait_until="networkidle")
@@ -42,8 +38,8 @@ def html_to_pdf(html_path, pdf_path):
             format="A4",
             print_background=True,
             margin={
-                "top": "0mm",     # @page CSS handles margins
-                "bottom": "0mm",  # @page CSS handles margins
+                "top": "0mm",
+                "bottom": "6mm",
                 "left": "0mm",
                 "right": "0mm"
             }
