@@ -1,5 +1,6 @@
 flask
-google-genai
 pdfplumber
 python-docx
+google-genai
+playwright
 gunicorn
