@@ -7,10 +7,11 @@ from flask import Flask, request, send_file
 from google import genai
 from playwright.sync_api import sync_playwright
 
+os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/.cache/ms-playwright"
+
 
 # ── PDF GENERATION ─────────────────────────────────────
 
-import os
 from playwright.sync_api import sync_playwright
 
 def html_to_pdf(html_path, pdf_path):
